@@ -210,24 +210,32 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
               if (snapshot.hasError)
                 return Center(child: Text('Error: ${snapshot.error}'));
               cachedFilters[filter?.name ?? "_"] = snapshot.data;
-              return CircleAvatar(
-                radius: 10.0,
-                backgroundImage: MemoryImage(
-                  snapshot.data,
-                ),
-                backgroundColor: Colors.white,
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Container(
+                  width: 100.0,
+                  height: 100.0,
+                  child: Image.memory(
+                    cachedFilters[filter?.name ?? "_"],
+                    fit: widget.fit,
+                  )
+                )
               );
           }
           return null; // unreachable
         },
       );
     } else {
-      return CircleAvatar(
-        radius: widget.filterSelectionRadius,
-        backgroundImage: MemoryImage(
-          cachedFilters[filter?.name ?? "_"],
-        ),
-        backgroundColor: widget.filterSelectionBackgroundColor,
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8.0),
+        child: Container(
+          width: 100.0,
+          height: 100.0,
+          child: Image.memory(
+            cachedFilters[filter?.name ?? "_"],
+            fit: widget.fit,
+          )
+        )
       );
     }
   }
@@ -282,10 +290,13 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
                         ),
                       ),
                     )
-                  : Image.memory(
-                      snapshot.data,
-                      fit: BoxFit.contain,
-                    );
+                  : ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.memory(
+                      cachedFilters[filter?.name ?? "_"],
+                      fit: widget.fit,
+                    )
+                  );
           }
           return null; // unreachable
         },
@@ -304,10 +315,13 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
                 ),
               ),
             )
-          : Image.memory(
+          : ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Image.memory(
               cachedFilters[filter?.name ?? "_"],
               fit: widget.fit,
-            );
+            )
+          );
     }
   }
 }
