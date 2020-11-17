@@ -61,6 +61,8 @@ class PhotoFilterSelector extends StatefulWidget {
   final BoxFit fit;
   final String filename;
   final bool circleShape;
+  final Color filterSelectionBackgroundColor;
+  final double filterSelectionRadius;
 
   const PhotoFilterSelector({
     Key key,
@@ -72,6 +74,8 @@ class PhotoFilterSelector extends StatefulWidget {
     this.fit = BoxFit.fill,
     @required this.filename,
     this.circleShape = false,
+    this.filterSelectionBackgroundColor = Colors.white,
+    this.filterSelectionRadius = 50.0,
   }) : super(key: key);
 
   @override
@@ -196,18 +200,18 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
             case ConnectionState.active:
             case ConnectionState.waiting:
               return CircleAvatar(
-                radius: 50.0,
+                radius: widget.filterSelectionRadius,
                 child: Center(
                   child: widget.loader,
                 ),
-                backgroundColor: Colors.white,
+                backgroundColor: widget.filterSelectionBackgroundColor,
               );
             case ConnectionState.done:
               if (snapshot.hasError)
                 return Center(child: Text('Error: ${snapshot.error}'));
               cachedFilters[filter?.name ?? "_"] = snapshot.data;
               return CircleAvatar(
-                radius: 50.0,
+                radius: 10.0,
                 backgroundImage: MemoryImage(
                   snapshot.data,
                 ),
@@ -219,11 +223,11 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
       );
     } else {
       return CircleAvatar(
-        radius: 50.0,
+        radius: widget.filterSelectionRadius,
         backgroundImage: MemoryImage(
           cachedFilters[filter?.name ?? "_"],
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: widget.filterSelectionBackgroundColor,
       );
     }
   }
